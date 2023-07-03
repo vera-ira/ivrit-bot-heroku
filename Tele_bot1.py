@@ -10,6 +10,8 @@ import json
 import os
 
 import constants1
+from constants1 import ID_ADMIN
+from constants1 import IVRIT_BOT_TOKEN
 from telebot_utils import log
 from telebot_utils import alert_new_user
 from telebot_utils import send_table
@@ -25,22 +27,22 @@ from telebot_utils import pool_lists
 """
 
 server = Flask(__name__) #эта чсть нужна для вебхука
-bot = telebot.TeleBot(constants1.token) #эта чать создает объект бот
-bot.send_message(115496560, 'Бот перезагрузился') # оповещает админа о перезагрузке
+bot = telebot.TeleBot(IVRIT_BOT_TOKEN) #эта чать создает объект бот
+bot.send_message(ID_ADMIN, 'Бот перезагрузился') # оповещает админа о перезагрузке
 #list = always_open_file()#это функция, которая открывает файл с глаголами. нужно это делать в самом начале, иначе ужодит время на его закрузку. Ниже две строки и открывают этот файл.
 words_verb = xlrd.open_workbook('./Pealim_FINAL1.xlsx')
 list = words_verb.sheet_by_index(0)
 
 #audio = open('test.mp3', "rb")
 #audio2 = open('CQADAgAD6gEAAr81gEsnVEWpXkjmWwI', "rb")
-#bot.send_audio(chat_id=115496560, audio="CQADAgAEAwAC-gW4S9fRNse-pNeqAg")
+#bot.send_audio(chat_id=ID_ADMIN, audio="CQADAgAEAwAC-gW4S9fRNse-pNeqAg")
 
 #audio=@audio.mp3;type=audio/mpeg'
 #thumb = open("111.jpeg","rb")
 #thumb=@example.jpeg;type=image/jpeg'
 #i = {file_id:"AgADAgADVqoxG2pjSEi_6Ui-I7UONPqqUQ8ABGuJL3LWD_86iBUBAAEC", width:100, height:60}
-#bot.send_audio(chat_id=115496560, audio=audio,performer="performer",title="title", thumb="111.jpeg")
-#bot.send_message(chat_id=115496560,text="текст"+"[.](https://habrastorage.org/r/w60/webt/5b/64/28/5b6428dc0f25c575004839.jpeg)",parse_mode='Markdown')
+#bot.send_audio(chat_id=ID_ADMIN, audio=audio,performer="performer",title="title", thumb="111.jpeg")
+#bot.send_message(chat_id=ID_ADMIN,text="текст"+"[.](https://habrastorage.org/r/w60/webt/5b/64/28/5b6428dc0f25c575004839.jpeg)",parse_mode='Markdown')
 
 """
 ниже три строки для получения данных о последнем обновлении
@@ -129,7 +131,7 @@ def callback_inline(call):
             """
             ниже уведомили админа
             """
-            bot.send_message(chat_id=115496560, text="Пользователь "+call.message.from_user.first_name+" (id: "+str(call.message.from_user.id)+ " не нашел в нашей базе глагол -"+wrong_verb)
+            bot.send_message(chat_id=ID_ADMIN, text="Пользователь "+call.message.from_user.first_name+" (id: "+str(call.message.from_user.id)+ " не нашел в нашей базе глагол -"+wrong_verb)
 
         elif 'id_botr' in call.data:
             call_data = call.data.split("-")#изначальнов кнопку вложили данные в формате id_botr-123456-test-123456. Поэтому сплитовали через тире и получили 4 объекта
@@ -211,7 +213,7 @@ def callback_inline(call):
 """
 НИЖЕ ЭТО ВСЕ ДЛЯ РАБОТЫ НА HEROKU
 """
-@server.route('/' + constants1.token, methods=['POST'])
+@server.route('/' + IVRIT_BOT_TOKEN, methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
@@ -219,7 +221,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://ivrit-bot.herokuapp.com/' + constants1.token)
+    bot.set_webhook(url='https://ivrit-bot.herokuapp.com/' + IVRIT_BOT_TOKEN)
     return "?", 200
 
 if __name__ == "__main__":

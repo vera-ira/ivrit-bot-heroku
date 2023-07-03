@@ -10,12 +10,14 @@ import json
 import os
 
 import constants1
+from constants1 import ID_ADMIN
+
 server = Flask(__name__)
 bot = telebot.TeleBot(constants1.token2)
 words_verb = xlrd.open_workbook('./Pealim_FINAL1.xlsx')
 list = words_verb.sheet_by_index(0)
 
-bot.send_message(115496560, 'Бот перезагрузился')
+bot.send_message(ID_ADMIN, 'Бот перезагрузился')
 
 """
 ниже три строки для получения данных о последнем обновлении
@@ -36,7 +38,7 @@ def log(message,answer):
 # Функция, которая оповещает админа о новом юзере
 def alert_new_user(message):
     from datetime import datetime
-    if str(message.from_user.id) != str(115496560):
+    if str(message.from_user.id) != str(ID_ADMIN):
         alert_for_admin = str("В гостях у нашего бота неизвестный пользователь.\nuser.first_name: "+message.from_user.first_name+".\nid: "+str(message.from_user.id)+"\nДата/время: "+str(datetime.now())+"\n\nТекст запроса от user: "+str(message.text))
         bot.send_message(constants1.id_admin, alert_for_admin)
 
@@ -387,7 +389,7 @@ def callback_inline(call):
             text_after_button = 'Я запомнил "*'+wrong_verb+'*" и если такой глагол существует, я внесу в мой словарь в ближайшие дни.'
             bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text=text_after_button,parse_mode='Markdown')
             # ниже уведомили админа
-            bot.send_message(chat_id=115496560, text="Пользователь "+call.message.from_user.first_name+" (id: "+str(call.message.from_user.id)+ " не нашел в нашей базе глагол -"+wrong_verb)
+            bot.send_message(chat_id=ID_ADMIN, text="Пользователь "+call.message.from_user.first_name+" (id: "+str(call.message.from_user.id)+ " не нашел в нашей базе глагол -"+wrong_verb)
 
         elif 'id_botr' in call.data:
             call_data = call.data.split("-") #изначальнов кнопку вложили данные в формате id_botr-123456-test-123456. Поэтому сплитовали через тире и получили 4 объекта
