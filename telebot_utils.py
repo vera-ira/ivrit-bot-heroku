@@ -5,6 +5,8 @@ import constants1
 import xlrd
 import json
 
+from constants1 import ID_ADMIN
+
 def always_open_file():
     words_verb = xlrd.open_workbook('./Pealim_FINAL1.xlsx')
     list = words_verb.sheet_by_index(0)
@@ -26,7 +28,7 @@ def alert_new_user(message, bot):
     """
     Функция, которая оповещает админа о новом юзере
     """
-    if str(message.from_user.id) != str(115496560):
+    if str(message.from_user.id) != str(ID_ADMIN):
         alert_for_admin = str("В гостях у нашего бота неизвестный пользователь.\nuser.first_name: "+message.from_user.first_name+".\nid: "+str(message.from_user.id)+"\nДата/время: "+str(datetime.now())+"\n\nТекст запроса от user: "+str(message.text))
         bot.send_message(constants1.id_admin, alert_for_admin)
 

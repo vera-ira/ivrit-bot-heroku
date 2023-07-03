@@ -1,11 +1,12 @@
 token ="649588171:AAE0FXWviI4f-vh3I32tCiDQtroD7lZyIr4" #ivrir_bot
+IVRIT_BOT_TOKEN = "649588171:AAE0FXWviI4f-vh3I32tCiDQtroD7lZyIr4" #ivrit_bot
 token2 ="630117651:AAFO8Gbh7djd4WXu1pDld7NGDzTqNr1ggSE" #via1102...
 APP_NAME = 'moment-vera-ira'
 
 sum_buttons_on_botr=5 #Цыфра означает, какое кол-во кнопок в одно сообщение мы выводим.
 table_start1 = 2 #Туту нужно вручную вписывать номер индекса строки в таблице ексель с которой начинается таблица. Т.е. Первая строка с индексом - 0, Вторая с индексом 1 ит.д. Это нужно для того чтоб в программе было проще найти нужное слово по ID. Получается положение слова это (номер id + номер старта таблицы.)
 table_start = table_start1-1 #т.к расчет начинается с 0
-id_admin = int(115496560)
+ID_ADMIN = int(115496560)
 
 
 rows_verbs_bin5 = [row for row in range(3094)]
